@@ -32,7 +32,11 @@ export default class Game {
   activePiece = {
     x: 0,
     y: 0,
-    // first T piece 
+    /* defines that the block will be the current selected rotation
+    from the index of the array (0 to 4) */
+    get blocks() {
+      return this.rotations[this.rotationIndex];
+    },
     blocks: [
       [0, 1, 0],
       [1, 1, 1],
@@ -65,6 +69,46 @@ export default class Game {
     if (this.hasCollision()) {
       this.activePiece.y -= 1;
       this.lockPiece();
+    }
+  }
+
+  rotatePiece() {
+    this.rotateBlocks();
+
+    if (this.hasCollision()) {
+      this.rotateBlocks(false);
+    }
+  }
+
+  /* the rotateBlocks() function will take as the starting point the main position
+  of the block as defined above, and then every time the user rotates the piece, 
+  the function will write the new rotated piece starting from the core point of
+  the piece and rotating clockwise. This is stored in a temp because
+  the user can just rotate it again until the piece is locked. 
+  The temp variable stores the square aside until it finds its correct location
+  where it will be inserted permanently */
+  rotateBlocks(clockwise = true) {
+    const blocks = this.activePiece.blocks;
+    const length = blocks.length;
+    const x = Math.floor(length / 2);
+    const y = length - 1;
+
+    for (let i = 0; i < x; i++) {
+      for (let j = i; j < y - i; j++) {
+        const temp = blocks[i][j];
+
+        if (clockwise) {
+          blocks[i][j] = blocks[y - j][i];
+          blocks[y - j][i] = blocks[y - i][y - j];
+          blocks[y - i][y - j] = blocks[j][y - i];
+          blocks[j][y - i] = temp;
+        } else {
+          blocks[i][j] = blocks[j][y - i];
+          blocks[j][y - i] = blocks[y - i][y - j];
+          blocks[y - i][y - j] = blocks[y - j][i];
+          blocks[y - j][i] = temp;
+        }
+      }
     }
   }
 
