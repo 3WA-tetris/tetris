@@ -34,3 +34,12 @@ h1 {
     text-align: center;
     padding: 2rem 0;
 }
+
+#root {
+    text-align: center;
+    margin: 1rem auto;
+}
+
+canvas {
+    background-color: grey;
+}
