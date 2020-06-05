@@ -14,7 +14,7 @@ function drawTable() {
   for (var r = 0; r < totalRows; r++) {
     var row = document.createElement("tr");
 
-    // create cells in row
+    // create cells in the row
     for (var c = 0; c < cellsInRow; c++) {
       var cell = document.createElement("td");
       // getRandom = Math.floor(Math.random() * (max - min + 1)) + min;
