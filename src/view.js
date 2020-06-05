@@ -24,7 +24,9 @@ export default class View {
         for (let y = 0; y < playfield.length; y++) {
             const line = playfield[y];
 
-            for (let x = 0; x < line.height; x++) {
+            for (let x = 0; x < line.length; x++) {
+                const block = line[x];
+
                 if (block) {
                     this.context.fillStyle = 'white';
                     this.context.strokeStyle = 'black';
