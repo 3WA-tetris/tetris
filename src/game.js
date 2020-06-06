@@ -42,7 +42,7 @@ export default class Game {
     }
 
     return {
-      playfield
+      playfield,
     };
   }
 
@@ -61,17 +61,81 @@ export default class Game {
     return playfield;
   }
 
+  /* the createPiece() function creates a random piece out of the 7 available */
   createPiece() {
-    return {
-      x: 0,
-      y: 0,
-      /* tetrominoes */
-      blocks: [
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 0, 0]
-      ]
+    const index = Math.floor(Math.random() * 7);
+    const type = "IJLOSTZ" [index];
+    const piece = {};
+
+    switch (type) {
+      case "I":
+        piece.blocks = [
+          [0, 0, 0, 0],
+          [1, 1, 1, 1],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+        ];
+        break;
+
+      case "J":
+        piece.blocks = [
+          [0, 0, 0],
+          [2, 2, 2],
+          [0, 0, 2],
+        ];
+        break;
+
+      case "L":
+        piece.blocks = [
+          [0, 0, 0],
+          [3, 3, 3],
+          [3, 0, 0],
+        ];
+        break;
+
+      case "O":
+        piece.blocks = [
+          [0, 0, 0, 0],
+          [0, 4, 4, 0],
+          [0, 4, 4, 0],
+          [0, 0, 0, 0],
+        ];
+        break;
+
+      case "S":
+        piece.blocks = [
+          [0, 0, 0],
+          [0, 5, 5],
+          [5, 5, 0],
+        ];
+        break;
+
+      case "T":
+        piece.blocks = [
+          [0, 0, 0],
+          [6, 6, 6],
+          [0, 6, 0],
+        ];
+        break;
+
+      case "Z":
+        piece.blocks = [
+          [0, 0, 0],
+          [7, 7, 0],
+          [0, 7, 7],
+        ];
+        break;
+
+      default:
+        throw new Error("Unknown piece shape");
     }
+
+    /* this is to position the incoming pieces at the center of 
+    the canvas and at the very top */
+    piece.x = Math.floor((10 - piece.blocks[0].length) / 2);
+    piece.y = -1;
+
+    return piece;
   }
 
   // move active piece to the left
@@ -169,7 +233,12 @@ export default class Game {
           the end of the loop and return a FALSE signal, triggering the lockPiece() function once 
           the piece reaches the bottom of the canvas. 
           Remember that on boolean 1 = true and 0 = false */
-        if (blocks[y][x] && ((this.playfield[pieceY + y] === undefined || this.playfield[pieceY + y][pieceX + x] === undefined) || this.playfield[pieceY + y][pieceX + x])) {
+        if (
+          blocks[y][x] &&
+          (this.playfield[pieceY + y] === undefined ||
+            this.playfield[pieceY + y][pieceX + x] === undefined ||
+            this.playfield[pieceY + y][pieceX + x])
+        ) {
           return true;
         }
       }

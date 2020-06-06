@@ -3,6 +3,16 @@ $   CANVAS AND VISUAL ELEMENTS
 -----------------------------------------*/
 
 export default class View {
+    static colours = {
+        '1': 'rgb(215, 255, 109)',
+        '2': 'rgb(244, 1, 86)',
+        '3': 'rgb(47, 227, 244)',
+        '4': 'rgb(79, 51, 255)',
+        '5': 'rgb(255, 90, 191)',
+        '6': 'rgb(245, 132, 127)',
+        '7': 'rgb(54, 255, 156)'
+    };
+
     constructor(element, width, height, rows, columns) {
         this.element = element;
         this.width = width;
@@ -42,7 +52,7 @@ export default class View {
                 const block = playfield[y][x];
 
                 if (block) {
-                    this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, 'rgb(147, 54, 223)');
+                    this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, View.colours[block]);
                 }
             }
         }
