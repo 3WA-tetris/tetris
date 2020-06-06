@@ -12,13 +12,16 @@ export default class Game {
 
   // initialisation of the game with the score, lines and level
   score = 0;
-  lines = 0;
-  level = 0;
+  lines = 19;
   // canvas to start the game
   playfield = this.createPlayfield();
   // active piece with position x and y
   activePiece = this.createPiece();
   nextPiece = this.createPiece();
+
+  get level() {
+    return Math.floor(this.lines * 0.1);
+  }
 
   /* the getState() function will check after every command a piece movement
   on the canvas by the user by scanning the active piece current position 
@@ -170,7 +173,8 @@ export default class Game {
     if (this.hasCollision()) {
       this.activePiece.y -= 1;
       this.lockPiece();
-      this.clearLines();
+      const clearedLines = this.clearLines();
+      this.updateScore(clearedLines);
       this.updatePieces();
     }
   }
@@ -301,6 +305,18 @@ export default class Game {
     for (let index of lines) {
       this.playfield.splice(index, 1);
       this.playfield.unshift(new Array(columns).fill(0));
+    }
+
+    return lines.length;
+  }
+
+  /* when a line is cleared, it will increment the score according to
+  the number of lines cleared (1, 2, 3 or 4 lines). Every 10 lines 
+  cleared, the user will also advance 1 level */
+  updateScore(clearedLines) {
+    if (clearedLines > 0) {
+      this.score += Game.points[clearedLines] * (this.level + 1);
+      this.lines += clearedLines;
     }
   }
 
