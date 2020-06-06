@@ -7,46 +7,62 @@ export default class Game {
   score = 0;
   lines = 0;
   level = 0;
-
   // canvas to start the game
-  playfield = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ];
-
+  playfield = this.createPlayfield();
   // active piece with position x and y
   activePiece = {
     x: 0,
     y: 0,
-    /* defines that the block will be the current selected rotation
-    from the index of the array (0 to 4) */
-    get blocks() {
-      return this.rotations[this.rotationIndex];
-    },
+    /* tetrimonies */
     blocks: [
       [0, 1, 0],
       [1, 1, 1],
       [0, 0, 0]
     ]
   };
+
+  /* the getState() function will check after every command a piece movement
+  on the canvas by the user by scanning the active piece current position 
+  on the canvas, and then it will store (meaning = print on the canvas) 
+  the current coordinates on the playfield so it the piece can be printed on the canvas */
+  getState() {
+    const playfield = this.createPlayfield();
+
+    for (let y = 0; y < this.playfield.length; y++) {
+      playfield[y] = [];
+
+      for (let x = 0; x < this.playfield[y].length; x++) {
+        playfield[y][x] = this.playfield[y][x];
+      }
+    }
+
+    for (let y = 0; y < this.activePiece.blocks.length; y++) {
+      for (let x = 0; x < this.activePiece.blocks[y].length; x++) {
+        if (this.activePiece.blocks[y][x]) {
+          playfield[this.activePiece.y + y][this.activePiece.x + x] = this.activePiece.blocks[y][x];
+        }
+      }
+    }
+
+    return {
+      playfield
+    };
+  }
+
+  // the createPlayfield() function draws the 20x10 canvas
+  createPlayfield() {
+    const playfield = [];
+
+    for (let y = 0; y < 20; y++) {
+      playfield[y] = [];
+
+      for (let x = 0; x < 10; x++) {
+        playfield[y][x] = 0;
+      }
+    }
+
+    return playfield;
+  }
 
   // move active piece to the left
   movePieceLeft() {
