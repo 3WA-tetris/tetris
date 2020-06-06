@@ -3,6 +3,13 @@ $   MAIN GAME SCRIPT
 -----------------------------------------*/
 
 export default class Game {
+  static points = {
+    '1': 40,
+    '2': 100,
+    '3': 300,
+    '4': 1200
+  };
+
   // initialisation of the game with the score, lines and level
   score = 0;
   lines = 0;
@@ -42,7 +49,7 @@ export default class Game {
     }
 
     return {
-      playfield,
+      playfield
     };
   }
 
@@ -163,6 +170,7 @@ export default class Game {
     if (this.hasCollision()) {
       this.activePiece.y -= 1;
       this.lockPiece();
+      this.clearLines();
       this.updatePieces();
     }
   }
@@ -263,6 +271,36 @@ export default class Game {
           this.playfield[pieceY + y][pieceX + x] = blocks[y][x];
         }
       }
+    }
+  }
+
+  /* clear lines at the bottom once the whole line is occupied by blocks */
+  clearLines() {
+    const rows = 20;
+    const columns = 10;
+    let lines = [];
+
+    for (let y = rows - 1; y >= 0; y--) {
+      let numberOfBlocks = 0;
+
+      for (let x = 0; x < columns; x++) {
+        if (this.playfield[y][x]) {
+          numberOfBlocks += 1;
+        }
+      }
+
+      if (numberOfBlocks === 0) {
+        break;
+      } else if (numberOfBlocks < columns) {
+        continue;
+      } else if (numberOfBlocks === columns) {
+        lines.unshift(y);
+      }
+    }
+
+    for (let index of lines) {
+      this.playfield.splice(index, 1);
+      this.playfield.unshift(new Array(columns).fill(0));
     }
   }
 
