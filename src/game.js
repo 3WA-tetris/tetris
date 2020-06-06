@@ -10,16 +10,8 @@ export default class Game {
   // canvas to start the game
   playfield = this.createPlayfield();
   // active piece with position x and y
-  activePiece = {
-    x: 0,
-    y: 0,
-    /* tetrimonies */
-    blocks: [
-      [0, 1, 0],
-      [1, 1, 1],
-      [0, 0, 0]
-    ]
-  };
+  activePiece = this.createPiece();
+  nextPiece = this.createPiece();
 
   /* the getState() function will check after every command a piece movement
   on the canvas by the user by scanning the active piece current position 
@@ -69,6 +61,19 @@ export default class Game {
     return playfield;
   }
 
+  createPiece() {
+    return {
+      x: 0,
+      y: 0,
+      /* tetrominoes */
+      blocks: [
+        [0, 1, 0],
+        [1, 1, 1],
+        [0, 0, 0]
+      ]
+    }
+  }
+
   // move active piece to the left
   movePieceLeft() {
     this.activePiece.x -= 1;
@@ -94,6 +99,7 @@ export default class Game {
     if (this.hasCollision()) {
       this.activePiece.y -= 1;
       this.lockPiece();
+      this.updatePieces();
     }
   }
 
@@ -163,7 +169,7 @@ export default class Game {
           the end of the loop and return a FALSE signal, triggering the lockPiece() function once 
           the piece reaches the bottom of the canvas. 
           Remember that on boolean 1 = true and 0 = false */
-        if (blocks[y][x] && ((this.playfield[pieceY + y] === undefined || this.playfield[pieceY + y][pieceX + x] === undefined)) || this.playfield[pieceY + y][pieceX + x]) {
+        if (blocks[y][x] && ((this.playfield[pieceY + y] === undefined || this.playfield[pieceY + y][pieceX + x] === undefined) || this.playfield[pieceY + y][pieceX + x])) {
           return true;
         }
       }
@@ -189,5 +195,10 @@ export default class Game {
         }
       }
     }
+  }
+
+  updatePieces() {
+    this.activePiece = this.nextPiece;
+    this.nextPiece = this.createPiece();
   }
 }

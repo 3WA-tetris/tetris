@@ -11,7 +11,6 @@ export default class View {
         this.canvas = document.createElement('canvas');
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-
         this.context = this.canvas.getContext('2d');
 
         this.blockWidth = this.width / columns;
@@ -39,10 +38,8 @@ export default class View {
 
     renderPlayfield(playfield) {
         for (let y = 0; y < playfield.length; y++) {
-            const line = playfield[y];
-
-            for (let x = 0; x < line.length; x++) {
-                const block = line[x];
+            for (let x = 0; x < playfield[y].length; x++) {
+                const block = playfield[y][x];
 
                 if (block) {
                     this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, 'rgb(147, 54, 223)');
