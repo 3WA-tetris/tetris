@@ -34,8 +34,8 @@ $   MAIN
 }
 
 #root h1 {
-    font-family: "Press Start 2P", monospace;
-    text-align: center;
+    font-family: "Press Start 2P", Consolas, monospace;
+    color: white;
     padding: 2rem 0;
 }
 
