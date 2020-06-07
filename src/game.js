@@ -10,14 +10,9 @@ export default class Game {
     '4': 1200
   };
 
-  // initialisation of the game with the score, lines and level
-  score = 0;
-  lines = 0;
-  // canvas to start the game
-  playfield = this.createPlayfield();
-  // active piece with position x and y
-  activePiece = this.createPiece();
-  nextPiece = this.createPiece();
+  constructor() {
+    this.reset();
+  }
 
   get level() {
     return Math.floor(this.lines * 0.1);
@@ -56,8 +51,21 @@ export default class Game {
       level: this.level,
       lines: this.lines,
       nextPiece: this.nextPiece,
-      playfield
+      playfield,
+      isGameOver: this.topOut
     };
+  }
+
+  reset() {
+    // initialisation of the game with the score, lines and level
+    this.score = 0;
+    this.lines = 0;
+    this.topOut = false;
+    // canvas to start the game
+    this.playfield = this.createPlayfield();
+    // active piece with position x and y
+    this.activePiece = this.createPiece();
+    this.nextPiece = this.createPiece();
   }
 
   // the createPlayfield() function draws the 20x10 canvas
@@ -172,6 +180,8 @@ export default class Game {
 
   // move active piece down
   movePieceDown() {
+    if (this.topOut) return;
+
     this.activePiece.y += 1;
 
     if (this.hasCollision()) {
@@ -180,6 +190,10 @@ export default class Game {
       const clearedLines = this.clearLines();
       this.updateScore(clearedLines);
       this.updatePieces();
+    }
+
+    if (this.hasCollision()) {
+      this.topOut = true;
     }
   }
 

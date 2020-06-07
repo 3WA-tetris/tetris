@@ -49,10 +49,43 @@ export default class View {
     coordinates by calling the clearScreen() function, so we don't have duplicates 
     running over the screen. So, after each movement, the function will basically 
     write the new coordinates whilst erasing the previous ones. */
-    render(state) {
+    renderMainScreen(state) {
         this.clearScreen();
         this.renderPlayfield(state);
         this.renderPanel(state);
+    }
+
+    renderStartScreen() {
+        this.context.fillStyle = 'white';
+        this.context.font = '18px "Press Start 2P"';
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+        this.context.fillText('Press RETURN to start', this.width / 2, this.height / 2);
+    }
+
+    renderPauseScreen() {
+        this.context.fillStyle = 'rgba(0, 0, 0, 0.75)';
+        this.context.fillRect(0, 0, this.width, this.height);
+
+        this.context.fillStyle = 'white';
+        this.context.font = '18px "Press Start 2P"';
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+        this.context.fillText('Press RETURN to resume', this.width / 2, this.height / 2);
+    }
+
+    renderEndScreen({
+        score
+    }) {
+        this.clearScreen();
+
+        this.context.fillStyle = 'white';
+        this.context.font = '18px "Press Start 2P"';
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+        this.context.fillText('GAME OVER', this.width / 2, this.height / 2 - 48);
+        this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2);
+        this.context.fillText('Press RETURN to restart', this.width / 2, this.height / 2 + 48);
     }
 
     clearScreen() {
@@ -98,17 +131,22 @@ export default class View {
             for (let x = 0; x < nextPiece.blocks[y].length; x++) {
                 const block = nextPiece.blocks[y][x];
 
+                // places the stats on the right side of the canvas
                 if (block) {
                     this.renderBlock(
-                        x * this.blockWidth,
-                        y * this.blockHeight,
-                        this.blockWidth,
-                        this.blockHeight,
+                        this.panelX + (x * this.blockWidth * 0.5),
+                        this.panelY + 100 + (y * this.blockHeight * 0.5),
+                        this.blockWidth * 0.5,
+                        this.blockHeight * 0.5,
                         View.colours[block]
                     );
                 }
             }
         }
+
+        this.context.strokeStyle = 'white';
+        this.context.lineWidth = this.playfieldBorderWidth;
+        this.context.strokeRect(0, 0, this.playfieldWidth, this.playfieldHeight);
     }
 
     renderBlock(x, y, width, height, colour) {
