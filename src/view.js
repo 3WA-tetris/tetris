@@ -35,18 +35,19 @@ export default class View {
     coordinates by calling the clearScreen() function, so we don't have duplicates 
     running over the screen. So, after each movement, the function will basically 
     write the new coordinates whilst erasing the previous ones. */
-    render({
-        playfield
-    }) {
+    render(state) {
         this.clearScreen();
-        this.renderPlayfield(playfield);
+        this.renderPlayfield(state);
+        this.renderPanel(state);
     }
 
     clearScreen() {
         this.context.clearRect(0, 0, this.width, this.height);
     }
 
-    renderPlayfield(playfield) {
+    renderPlayfield({
+        playfield
+    }) {
         for (let y = 0; y < playfield.length; y++) {
             for (let x = 0; x < playfield[y].length; x++) {
                 const block = playfield[y][x];
@@ -56,6 +57,23 @@ export default class View {
                 }
             }
         }
+    }
+
+    renderPanel({
+        level,
+        score,
+        lines,
+        nextPiece
+    }) {
+        this.context.textAlign = 'start';
+        this.context.textBaseline = 'top';
+        this.context.fillStyle = 'white';
+        this.context.font = '14px "Press Start 2P"';
+
+        this.context.fillText(`Score: ${score}`, 0, 0);
+        this.context.fillText(`Lines: ${lines}`, 0, 24);
+        this.context.fillText(`Level: ${level}`, 0, 48);
+        this.context.fillText('Next: ', 0, 96);
     }
 
     renderBlock(x, y, width, height, colour) {

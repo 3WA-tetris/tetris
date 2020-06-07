@@ -12,7 +12,7 @@ export default class Game {
 
   // initialisation of the game with the score, lines and level
   score = 0;
-  lines = 19;
+  lines = 0;
   // canvas to start the game
   playfield = this.createPlayfield();
   // active piece with position x and y
@@ -52,6 +52,10 @@ export default class Game {
     }
 
     return {
+      score: this.score,
+      level: this.level,
+      lines: this.lines,
+      nextPiece: this.nextPiece,
       playfield
     };
   }
