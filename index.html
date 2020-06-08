@@ -20,36 +20,16 @@
   </div>
 
   <script src="./index.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
+  <script>
+    var sound = new Howl({
+      src: ['./src/A-Ha - Take On Me (Instrumental Version).mp3'],
+      volume: 0.7,
+      loop: true
+    });
+    sound.play()
+  </script>
 
 </body>
 
 </html>
-
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <title>Demo</title>
-    <style>
-      #div1 {
-        margin: 10px;
-        font-size: 1.25em;
-      }
-      table {
-        border-collapse: collapse;
-        border: 1px solid #7f7f7f;
-      }
-      td {
-        border: 1px solid #7f7f7f;
-        width: 50px;
-        height: 50px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="div1"></div>
-
-    <script src="main.js"></script>
-    <script src="pieces.js"></script>
-  </body>
-</html> -->
