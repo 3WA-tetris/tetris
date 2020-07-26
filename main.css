@@ -4,43 +4,43 @@ $   BASE STYLES
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 html,
 body {
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
+	height: 100vh;
+	width: 100vw;
+	margin: 0;
+	padding: 0;
 }
 
 html {
-    overflow: hidden;
-    display: block;
-    box-sizing: border-box;
+	overflow: visible;
+	display: block;
+	box-sizing: border-box;
 }
 
 body {
-    background-color: black;
+	background-color: black;
 }
 
 /*------------------------------------
 $   MAIN
 -------------------------------------*/
 #root {
-    text-align: center;
-    margin: 1rem auto;
+	text-align: center;
+	margin: 1rem auto;
 }
 
 #root h1 {
-    font-family: "Press Start 2P", Consolas, monospace;
-    color: white;
-    padding: 2rem 0;
+	font-family: 'Press Start 2P', Consolas, monospace;
+	color: white;
+	padding: 2rem 0;
 }
 
 #root canvas {
-    display: block;
-    margin: 0 auto;
-    background-color: rgba(147, 0, 117, 0.08);
+	display: block;
+	margin: 0 auto;
+	background-color: rgba(147, 0, 117, 0.08);
 }
